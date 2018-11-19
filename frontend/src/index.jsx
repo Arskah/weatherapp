@@ -54,7 +54,6 @@ class Weather extends React.Component {
     // const location = await getLocation();
     // const weather = await getWeatherFromApi(location);
     const weather = await getWeatherFromApi(defaultLocation);
-    console.log(weather);
 
     const wIcons = weather.map(forecast => forecast[0].icon.slice(0, -1));
     this.setState({ icons: wIcons });
