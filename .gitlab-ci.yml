@@ -1,0 +1,32 @@
+stages:
+    - setup
+    - lint
+    - publish
+
+cache:
+    paths:
+        - node_modules/
+
+setup:
+    image: node
+    stage: setup
+    script:
+        - npm ci
+
+lint:
+    image: node
+    stage: lint
+    script:
+        - npm run lint
+
+publish:
+    stage: publish
+    image: docker:latest
+    only:
+        - master
+    before_script:
+        - docker info
+        - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
+    script:
+        - docker build . -t "$IMAGE_NAME"
+        - docker push "$IMAGE_NAME"
