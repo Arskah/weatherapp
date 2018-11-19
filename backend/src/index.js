@@ -14,12 +14,14 @@ const app = new Koa();
 
 app.use(cors());
 
-const fetchWeather = async (location) => {
+const fetchWeather = async (queryParams) => {
   let endpoint = '';
-  if (location === defaultTargetCity) {
-    endpoint = `${mapURI}/forecast?q=${location}&appid=${appId}`;
+  if (queryParams.lon && queryParams.lat) {
+    endpoint = `${mapURI}/forecast?lon=${queryParams.lon}&lat=${queryParams.lat}&appid=${appId}`;
+  } else if (queryParams.location) {
+    endpoint = `${mapURI}/forecast?q=${queryParams.location}&appid=${appId}`;
   } else {
-    endpoint = `${mapURI}/forecast?lon=${location[0]}&lat=${location[1]}&appid=${appId}`;
+    endpoint = `${mapURI}/forecast?q=${defaultTargetCity}&appid=${appId}`;
   }
   console.error(endpoint);
   const response = await fetch(endpoint);
@@ -27,14 +29,7 @@ const fetchWeather = async (location) => {
 };
 
 router.get('/api/weather', async ctx => {
-  var location = '';
-  if (ctx.query.lon && ctx.query.lat) {
-    location = [ ctx.query.lon, ctx.query.lat, ];
-  } else {
-    location = defaultTargetCity;
-  }
-  const weatherData = await fetchWeather(location);
-
+  const weatherData = await fetchWeather(ctx.query);
   var nElements = ctx.query.n ? ctx.query.n : 5;
   ctx.type = 'application/json; charset=utf-8';
   ctx.body = weatherData.list && weatherData.list[0].weather ? weatherData.list.map(data => data.weather).slice(0, nElements) : { };
