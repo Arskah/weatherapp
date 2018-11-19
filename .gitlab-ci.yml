@@ -7,16 +7,32 @@ cache:
     paths:
         - node_modules/
 
-setup:
+setup:fe:
     image: node
     stage: setup
     script:
+        - cd frontend
         - npm install
 
-lint:
+setup:be:
+    image: node
+    stage: setup
+    script:
+        - cd backend
+        - npm install
+
+lint:fe:
     image: node
     stage: lint
     script:
+        - cd frontend
+        - npm run lint
+
+lint:be:
+    image: node
+    stage: lint
+    script:
+        - cd backend
         - npm run lint
 
 publish:
