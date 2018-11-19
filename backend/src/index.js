@@ -35,8 +35,9 @@ router.get('/api/weather', async ctx => {
   }
   const weatherData = await fetchWeather(location);
 
+  var nElements = ctx.query.n ? ctx.query.n : 5;
   ctx.type = 'application/json; charset=utf-8';
-  ctx.body = weatherData.list && weatherData.list[0].weather ? weatherData.list.map(data => data.weather) : { };
+  ctx.body = weatherData.list && weatherData.list[0].weather ? weatherData.list.map(data => data.weather).slice(0, nElements) : { };
 });
 
 app.use(router.routes());
