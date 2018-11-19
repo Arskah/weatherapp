@@ -5,28 +5,38 @@ const router = require('koa-router')();
 const fetch = require('node-fetch');
 const cors = require('kcors');
 
-const appId = process.env.APPID || '';
+const appId = process.env.APPID || 'f79bc007c40b2f695be6da5d691fa83e';
 const mapURI = process.env.MAP_ENDPOINT || 'http://api.openweathermap.org/data/2.5';
-const targetCity = process.env.TARGET_CITY || 'Helsinki,fi';
-
+const defaultTargetCity = process.env.TARGET_CITY || 'Helsinki,fi';
 const port = process.env.PORT || 9000;
 
 const app = new Koa();
 
 app.use(cors());
 
-const fetchWeather = async () => {
-  const endpoint = `${mapURI}/weather?q=${targetCity}&appid=${appId}&`;
+const fetchWeather = async (location) => {
+  let endpoint = '';
+  if (location === defaultTargetCity) {
+    endpoint = `${mapURI}/forecast?q=${location}&appid=${appId}`;
+  } else {
+    endpoint = `${mapURI}/forecast?lon=${location[0]}&lat=${location[1]}&appid=${appId}`;
+  }
+  console.error(endpoint);
   const response = await fetch(endpoint);
-
   return response ? response.json() : {};
 };
 
 router.get('/api/weather', async ctx => {
-  const weatherData = await fetchWeather();
+  var location = '';
+  if (ctx.query.lon && ctx.query.lat) {
+    location = [ ctx.query.lon, ctx.query.lat, ];
+  } else {
+    location = defaultTargetCity;
+  }
+  const weatherData = await fetchWeather(location);
 
   ctx.type = 'application/json; charset=utf-8';
-  ctx.body = weatherData.weather ? weatherData.weather[0] : {};
+  ctx.body = weatherData.list && weatherData.list[0].weather ? weatherData.list.map(data => data.weather) : { };
 });
 
 app.use(router.routes());
