@@ -10,3 +10,7 @@ services:
     build: ./backend
     ports:
       - "9000:9000"
+    environment:
+      APPID: ${APPID}
+      MAP_ENDPOINT: ${MAP_ENDPOINT}
+      TARGET_CITY: ${TARGET_CITY}
