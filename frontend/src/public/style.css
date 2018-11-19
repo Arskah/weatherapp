@@ -9,6 +9,11 @@ body{
 }
 
 .icon {
-  width: 30vw;
-  height: 30vw;
+  width: 10vw;
+  height: 10vw;
+}
+
+.icons {
+  display: flex;
+  flex-flow: row;
 }
