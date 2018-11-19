@@ -45,5 +45,7 @@ publish:
         - docker info
         - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
     script:
-        - docker build . -t "$IMAGE_NAME"
-        - docker push "$IMAGE_NAME"
+        - docker build ./frontend -t "$IMAGE_FE_NAME"
+        - docker push "$IMAGE_FE_NAME"
+        - docker build ./backend -t "$IMAGE_BE_NAME"
+        - docker push "$IMAGE_BE_NAME"
