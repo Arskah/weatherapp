@@ -11,7 +11,7 @@ setup:
     image: node
     stage: setup
     script:
-        - npm ci
+        - npm install
 
 lint:
     image: node
