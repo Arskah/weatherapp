@@ -5,6 +5,8 @@ services:
     build: ./frontend
     ports:
       - "8000:8000"
+    volumes:
+      - ./frontend:/app
     
   backend:
     build: ./backend
@@ -14,3 +16,5 @@ services:
       APPID: ${APPID}
       MAP_ENDPOINT: ${MAP_ENDPOINT}
       TARGET_CITY: ${TARGET_CITY}
+    volumes:
+      - ./backend:/app
