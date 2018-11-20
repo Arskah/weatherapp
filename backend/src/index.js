@@ -14,14 +14,15 @@ const app = new Koa();
 
 app.use(cors());
 
-const fetchWeather = async (queryParams, count) => {
+const fetchWeather = async (queryParams) => {
   let endpoint = '';
+  var count = queryParams.n ? queryParams.n : 5;
   if (queryParams.lon && queryParams.lat) {
-    endpoint = `${mapURI}/forecast/daily?lon=${queryParams.lon}&lat=${queryParams.lat}&appid=${appId}&cnt=${count}`;
+    endpoint = `${mapURI}/forecast?lon=${queryParams.lon}&lat=${queryParams.lat}&appid=${appId}&cnt=${count}`;
   } else if (queryParams.location) {
-    endpoint = `${mapURI}/forecast/daily?q=${queryParams.location}&appid=${appId}&cnt=${count}`;
+    endpoint = `${mapURI}/forecast?q=${queryParams.location}&appid=${appId}&cnt=${count}`;
   } else {
-    endpoint = `${mapURI}/forecast/daily?q=${defaultTargetCity}&appid=${appId}&cnt=${count}`;
+    endpoint = `${mapURI}/forecast?q=${defaultTargetCity}&appid=${appId}&cnt=${count}`;
   }
   console.error(endpoint);
   const response = await fetch(endpoint);
@@ -29,8 +30,7 @@ const fetchWeather = async (queryParams, count) => {
 };
 
 router.get('/api/weather', async ctx => {
-  var count = ctx.query.n ? ctx.query.n : 5;
-  const weatherData = await fetchWeather(ctx.query, count);
+  const weatherData = await fetchWeather(ctx.query);
   ctx.type = 'application/json; charset=utf-8';
   ctx.body = weatherData.list && weatherData.list[0].weather ? weatherData.list.map(data => data.weather) : { };
 });
