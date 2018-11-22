@@ -30,6 +30,7 @@ class Weather extends React.Component {
     super(props);
     this.state = {
       icons: [],
+      dt: 0,
       latitude: 0,
       longitude: 0,
     };
@@ -42,13 +43,15 @@ class Weather extends React.Component {
       console.warn('No browser support for geolocation');
     }
     const weather = await getWeatherFromApiLoc(defaultLocation);
-    const wIcons = weather.map(forecast => forecast[0].icon.slice(0, -1));
-    this.updateState(wIcons, null);
+    const time = weather.map(forecast => forecast.time);
+    const wIcons = weather.map(forecast => forecast.weather[0].icon.slice(0, -1));
+    this.updateState(wIcons, time, null);
   }
 
-  updateState(wIcons, coords) {
+  updateState(wIcons, time, coords) {
     this.setState({
       icons: wIcons,
+      dt: time,
     });
     if (coords) {
       this.setState({
@@ -60,18 +63,27 @@ class Weather extends React.Component {
 
   async updateLoc(location) {
     const weather = await getWeatherFromApiCoord(location.coords);
-    const wIcons = weather.map(forecast => forecast[0].icon.slice(0, -1));
-    this.updateState(wIcons, location.coords);
+    const time = weather.map(forecast => forecast.time);
+    const wIcons = weather.map(forecast => forecast.weather[0].icon.slice(0, -1));
+    this.updateState(wIcons, time, location.coords);
   }
 
   render() {
     return (
-      <div className="icons">
-        <div>Latitude: <span>{this.state.latitude}</span></div>
-        <div>Longitude: <span>{this.state.longitude}</span></div>
-        {this.state.icons.map((icon, index) => (
-          <WeatherIcon key={index} icon={icon} /> // eslint-disable-line react/no-array-index-key
-        ))}
+      <div className="container">
+        <div className="icons">
+          {this.state.icons.map((icon, index) => (
+            <WeatherIcon
+              key={index} // eslint-disable-line react/no-array-index-key
+              icon={icon}
+              time={this.state.dt[index]}
+            />
+          ))}
+        </div>
+        <div className="position">
+          <div>Latitude: <span>{this.state.latitude}</span></div>
+          <div>Longitude: <span>{this.state.longitude}</span></div>
+        </div>
       </div>
     );
   }
