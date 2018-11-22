@@ -4,7 +4,10 @@ const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: [
+    'babel-polyfill',
+    './src/index.jsx',
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
