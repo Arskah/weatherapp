@@ -22,7 +22,8 @@
       "../src/**/*.jsx"
     ],
     "require": [
-      "babel-register"
+      "babel-register",
+      "babel-polyfill"
     ],
     "inherit": true,
     "verbose": true,

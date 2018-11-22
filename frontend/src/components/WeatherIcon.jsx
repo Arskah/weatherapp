@@ -8,7 +8,6 @@ const options = {
 
 const WeatherIcon = ({ icon, time }) => {
   const date = new Date(time);
-  console.log(time);
   return (
     <div className="icon">
       <img src={`/img/${icon}.svg`} alt="" />
