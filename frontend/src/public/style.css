@@ -7,13 +7,30 @@ body{
   justify-content: center;
   align-items: center;
 }
-
-.icon {
-  width: 10vw;
-  height: 10vw;
+.container {
+  display: flex;
+  flex-flow: column;
 }
 
 .icons {
   display: flex;
   flex-flow: row;
+}
+
+.icon {
+  width: 10vw;
+  height: 10vw;
+  align-items: center;
+}
+
+.icon-text {
+  text-align: center;
+}
+
+.position {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 4rem;
 }

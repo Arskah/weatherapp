@@ -32,7 +32,15 @@ const fetchWeather = async (queryParams) => {
 router.get('/api/weather', async ctx => {
   const weatherData = await fetchWeather(ctx.query);
   ctx.type = 'application/json; charset=utf-8';
-  ctx.body = weatherData.list && weatherData.list[0].weather ? weatherData.list.map(data => data.weather) : { };
+  if (weatherData.list && weatherData.list[0].weather && weatherData.list[0].dt) {
+    ctx.body = weatherData.list.map(data => ({
+      weather: data.weather,
+      time: data.dt_txt,
+    })
+    );
+  } else {
+    ctx.body = { };
+  }
 });
 
 app.use(router.routes());

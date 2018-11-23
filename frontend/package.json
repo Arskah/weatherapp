@@ -11,28 +11,67 @@
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --config webpack.config.js --progress --inline --colors",
     "lint": "node_modules/.bin/eslint --ext .js --ext .jsx .",
-    "test": "ava"
+    "test": "ava --verbose",
+    "test:watch": "ava --verbose --watch"
+  },
+  "ava": {
+    "files": [
+      "src/**/*.test.{js,jsx}"
+    ],
+    "sources": [
+      "../src/**/*.jsx"
+    ],
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ],
+    "inherit": true,
+    "verbose": true,
+    "babel": {
+      "extensions": [
+        "jsx"
+      ],
+      "testOptions": {
+        "babelrc": false,
+        "configFile": false,
+        "plugins": [
+          "@babel/plugin-syntax-jsx"
+        ],
+        "presets": [
+          "@babel/preset-react",
+          "@babel/preset-env"
+        ]
+      }
+    }
   },
   "dependencies": {
-    "navigator": "^1.0.1",
     "prop-types": "^15.6.2",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-geolocation": "^1.0.4"
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-3": "^7.0.0",
     "ava": "1.0.0-rc.2",
-    "babel-core": "^6.24.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^7.0.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2016": "^6.22.0",
-    "babel-preset-react": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "^15.0.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "html-webpack-plugin": "^2.28.0",
+    "jsx-test-helpers": "^3.0.0",
+    "react-addons-test-utils": "^15.6.2",
     "transfer-webpack-plugin": "^0.1.4",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.2"
