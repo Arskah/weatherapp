@@ -2,7 +2,7 @@ import React from 'react';
 import test from 'ava';
 import { shallow, mount, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import Weather from '../src/components/Weather';
+import Weather from './Weather';
 
 configure({ adapter: new Adapter() });
 
