@@ -1,7 +1,7 @@
 import React from 'react';
 import WeatherIcon from './WeatherIcon';
 
-const baseURL = process.env.ENDPOINT;
+const baseURL = process.env.ENDPOINT || 'http://0.0.0.0:9000/api';
 const defaultLocation = 'Helsinki,fi';
 
 const getWeatherFromApiLoc = async (location) => {
