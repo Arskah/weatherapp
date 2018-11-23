@@ -7,7 +7,13 @@
   },
   "rules": {
     "semi": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
   },
   "globals": {
     "fetch": false,
