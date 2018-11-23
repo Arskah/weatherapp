@@ -1,5 +1,6 @@
 stages:
     - setup
+    - test
     - lint
     - publish
 
@@ -21,6 +22,13 @@ setup:be:
     script:
         - cd backend
         - npm install
+
+test:unit_fe:
+    image: node
+    stage: test
+    script:
+        - cd frontend
+        - npm test
 
 lint:fe:
     image: node
