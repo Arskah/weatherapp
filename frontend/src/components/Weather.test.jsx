@@ -1,6 +1,6 @@
 import React from 'react';
 import test from 'ava';
-import { shallow, mount, configure } from 'enzyme';
+import { shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Weather from './Weather';
 
@@ -21,7 +21,6 @@ test('Longitude is always rendered', (t) => {
 });
 
 test('There is 3 icons', (t) => {
-  let promise;
   const wrapper = shallow(
     <Weather />
   );
